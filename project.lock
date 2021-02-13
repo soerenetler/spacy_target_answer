@@ -1,0 +1,16 @@
+corpus:
+  cmd: python -m spacy run corpus
+  script:
+    - python -m spacy convert assets corpus --n-sents 10 -c ner
+  deps:
+    - path: assets/dev_conll.csv
+      md5: a90b687bb69cc965297177aef1dce2d7
+  outs:
+    - path: corpus/train.spacy
+      md5: null
+    - path: corpus/dev.spacy
+      md5: null
+    - path: corpus/test.spacy
+      md5: null
+  spacy_version: 3.0.0rc3
+  spacy_git_version: 76e25afcd
