@@ -3,8 +3,8 @@ description: "Simple example of downloading and converting source data and train
 
 # Variables can be referenced across the project.yml using ${vars.var_name}
 vars:
-  config: "default"
-  gpu: -1
+  config: "gpu_config"
+  gpu: 0
 
 remotes:
   default: gs://galaxy-state/spacy-v3-benchmarks
@@ -24,18 +24,17 @@ workflows:
     - evaluate
 
 commands:
-  -
-    name: init-config
+  - name: init-config
     help: "Generate a default English NER config"
     script:
-      - "python -m spacy init config --lang en --pipeline ner --optimize efficiency -C configs/${vars.config}.cfg"
+      - "python3 -m spacy init config --lang en --pipeline ner --optimize efficiency -C configs/${vars.config}.cfg"
 
   - name: corpus
     help: "Convert the data to spaCy's format"
     # Make sure we specify the branch in the command string, so that the
     # caching works correctly.
     script:
-      - "python -m spacy convert assets corpus --n-sents 10 -c ner"
+      - "python3 -m spacy convert assets corpus --n-sents 10 -c ner"
     deps:
         - "assets/dev_conll.csv"
     outputs:
@@ -46,10 +45,10 @@ commands:
   - name: train
     help: "Train the full pipeline"
     script:
-      - "python -m spacy train configs/${vars.config}.cfg -o training/ --gpu-id ${vars.gpu} --paths.train corpus/train.spacy --paths.dev corpus/dev.spacy"
+      - "python3 -m spacy train configs/${vars.config}.cfg -o training/ --gpu-id ${vars.gpu} --paths.train corpus/train_conll.spacy --paths.dev corpus/dev_conll.spacy"
     deps:
-      - "corpus/train.spacy"
-      - "corpus/dev.spacy"
+      - "corpus/train_conll.spacy"
+      - "corpus/dev_conll.spacy"
       - "configs/${vars.config}.cfg"
     outputs:
       - "training/model-best"

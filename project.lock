@@ -1,10 +1,10 @@
 corpus:
   cmd: python -m spacy run corpus
   script:
-    - python -m spacy convert assets corpus --n-sents 10 -c ner
+    - python3 -m spacy convert assets corpus --n-sents 10 -c ner
   deps:
     - path: assets/dev_conll.csv
-      md5: a90b687bb69cc965297177aef1dce2d7
+      md5: 90dd1b67e9652ba4a6fd8d9790d2406d
   outs:
     - path: corpus/train.spacy
       md5: null
@@ -12,5 +12,22 @@ corpus:
       md5: null
     - path: corpus/test.spacy
       md5: null
-  spacy_version: 3.0.0rc3
-  spacy_git_version: 76e25afcd
+  spacy_version: 3.0.3
+  spacy_git_version: f4f46b617
+train:
+  cmd: python -m spacy run train
+  script:
+    - python3 -m spacy train configs/gpu_config.cfg -o training/ --gpu-id 0 --paths.train
+      corpus/train_conll.spacy --paths.dev corpus/dev_conll.spacy
+  deps:
+    - path: corpus/train_conll.spacy
+      md5: ea8615c681816a90f85da72e230601a9
+    - path: corpus/dev_conll.spacy
+      md5: f7f98ca46bc5389757560d96ce5ae52c
+    - path: configs/gpu_config.cfg
+      md5: a7521147cab2d9b1226e2887d4d419fc
+  outs:
+    - path: training/model-best
+      md5: 806145968685e492e43677eb107fab6b
+  spacy_version: 3.0.3
+  spacy_git_version: f4f46b617
