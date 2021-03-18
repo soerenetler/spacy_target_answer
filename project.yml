@@ -4,6 +4,7 @@ description: "Simple example of downloading and converting source data and train
 # Variables can be referenced across the project.yml using ${vars.var_name}
 vars:
   config: "gpu_config"
+  assets: "assets"
   gpu: 0
 
 remotes:
@@ -14,8 +15,7 @@ remotes:
 directories: ["assets", "training", "configs", "metrics", "corpus"]
 
 assets:
-  - 
-    dest: "assets/dev_conll.csv"
+  - dest: "${vars.assets}/dev_conll.csv"
 
 workflows:
   all:
@@ -36,7 +36,7 @@ commands:
     script:
       - "python3 -m spacy convert assets corpus --n-sents 10 -c ner"
     deps:
-        - "assets/dev_conll.csv"
+        - "${vars.assets}/dev_conll.csv"
     outputs:
       - "corpus/train.spacy"
       - "corpus/dev.spacy"
