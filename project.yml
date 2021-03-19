@@ -4,7 +4,11 @@ description: "Simple example of downloading and converting source data and train
 # Variables can be referenced across the project.yml using ${vars.var_name}
 vars:
   config: "config"
-  assets_path: "/content/gdrive/MyDrive/mt-qg-data/01_data/preprocessedData/sentences_conll"
+  dataset: "squad"
+  base_output_path: "/content/gdrive/MyDrive/mt-qg-data"
+  assets_path: "${vars.base_output_path}/01_data/preprocessedData/${vars.dataset}/sentences_conll"
+  model_path: "${vars.base_output_path}/00_models/spacy_target_answer/${vars.dataset}"
+  
   gpu: 0
 
 remotes:
@@ -45,7 +49,7 @@ commands:
   - name: train
     help: "Train the full pipeline"
     script:
-      - "python3 -m spacy train configs/${vars.config}.cfg -o training/ --gpu-id ${vars.gpu} --paths.train corpus/train.spacy --paths.dev corpus/dev.spacy"
+      - "python3 -m spacy train configs/${vars.config}.cfg -o training/ --gpu-id ${vars.gpu} --paths.train corpus/train.spacy --paths.dev corpus/dev.spacy --output ${vars.model_path}"
     deps:
       - "corpus/train.spacy"
       - "corpus/dev.spacy"
