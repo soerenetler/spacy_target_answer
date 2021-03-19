@@ -47,8 +47,8 @@ commands:
     script:
       - "python3 -m spacy train configs/${vars.config}.cfg -o training/ --gpu-id ${vars.gpu} --paths.train corpus/train_conll.spacy --paths.dev corpus/dev_conll.spacy"
     deps:
-      - "corpus/train_conll.spacy"
-      - "corpus/dev_conll.spacy"
+      - "corpus/train.spacy"
+      - "corpus/dev.spacy"
       - "configs/${vars.config}.cfg"
     outputs:
       - "training/model-best"
