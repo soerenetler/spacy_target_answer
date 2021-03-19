@@ -4,7 +4,7 @@ description: "Simple example of downloading and converting source data and train
 # Variables can be referenced across the project.yml using ${vars.var_name}
 vars:
   config: "config"
-  dataset: "squad"
+  dataset: "quac"
   base_output_path: "/content/gdrive/MyDrive/mt-qg-data"
   assets_path: "${vars.base_output_path}/01_data/preprocessedData/${vars.dataset}/sentences_conll"
   model_path: "${vars.base_output_path}/00_models/spacy_target_answer/${vars.dataset}"
