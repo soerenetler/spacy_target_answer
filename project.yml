@@ -7,8 +7,8 @@ vars:
   dataset: "quac"
   base_output_path: "/content/gdrive/MyDrive/mt-qg-data"
   assets_path: "${vars.base_output_path}/01_data/preprocessedData/${vars.dataset}/sentences_conll"
-  model_path: "${vars.base_output_path}/00_models/spacy_target_answer/${vars.dataset}"
-  
+  model_path: "${vars.base_output_path}/00_models/spacy_target_answer/${vars.dataset}/training"
+  metrics_path: "${vars.base_output_path}/00_models/spacy_target_answer/${vars.dataset}/metrics"
   gpu: 0
 
 remotes:
@@ -60,16 +60,16 @@ commands:
   - name: evaluate
     help: "Evaluate on the test data and save the metrics"
     script:
-      - "python -m spacy evaluate ${vars.model_path}/model-best ./corpus/test.spacy --output ./metrics/${vars.config}.json --gpu-id ${vars.gpu}"
+      - "python -m spacy evaluate ${vars.model_path}/model-best ./corpus/test.spacy --output metrics_path/${vars.config}.json --gpu-id ${vars.gpu}"
     deps:
       - "${vars.model_path}/model-best"
       - "corpus/test.spacy"
     outputs:
-      - "metrics/${vars.config}.json"
+      - "{$vars.metrics_path}/${vars.config}.json"
 
   - name: clean
     help: "Remove intermediate files"
     script:
-      - "rm -rf training/*"
-      - "rm -rf metrics/*"
+      - "rm -rf {$vars.model_path}/*"
+      - "rm -rf {$vars.metrics_path}/*"
       - "rm -rf corpus/*"
