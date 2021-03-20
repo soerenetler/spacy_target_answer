@@ -60,9 +60,9 @@ commands:
   - name: evaluate
     help: "Evaluate on the test data and save the metrics"
     script:
-      - "python -m spacy evaluate ${model_path}/model-best ./corpus/test.spacy --output ./metrics/${vars.config}.json --gpu-id ${vars.gpu}"
+      - "python -m spacy evaluate ${vars.model_path}/model-best ./corpus/test.spacy --output ./metrics/${vars.config}.json --gpu-id ${vars.gpu}"
     deps:
-      - "${model_path}/model-best"
+      - "${vars.model_path}/model-best"
       - "corpus/test.spacy"
     outputs:
       - "metrics/${vars.config}.json"
