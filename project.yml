@@ -38,7 +38,7 @@ commands:
     # Make sure we specify the branch in the command string, so that the
     # caching works correctly.
     script:
-      - "python3 -m spacy convert ${vars.assets_path} corpus --n-sents 10 -c ner"
+      - "python3 -m spacy convert ${vars.assets_path} corpus -c ner"
     deps:
         - "${vars.assets_path}/dev.conll"
     outputs:
