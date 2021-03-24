@@ -65,11 +65,11 @@ commands:
       - "${vars.model_path}/model-best"
       - "corpus/test.spacy"
     outputs:
-      - "{$vars.metrics_path}/${vars.config}.json"
+      - "${vars.metrics_path}/${vars.config}.json"
 
   - name: clean
     help: "Remove intermediate files"
     script:
-      - "rm -rf {$vars.model_path}/*"
-      - "rm -rf {$vars.metrics_path}/*"
+      - "rm -rf ${vars.model_path}/*"
+      - "rm -rf ${vars.metrics_path}/*"
       - "rm -rf corpus/*"
